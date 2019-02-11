@@ -12,15 +12,15 @@ class ScorceCode:
 
 
     def forCountry(Country, product):
+        print("Product : " + product)
+        print("Country : " + Country.title())
         pytrend = TrendReq()
         ctemp=pycountry.countries.get(name=Country.title())
-        print(Country.title())
         pytrend.build_payload(kw_list=[product], geo=ctemp.alpha_2)
         interest_by_region_df = pytrend.interest_by_region(resolution='REGION')
-
         related_topics = pytrend.related_topics()
         related_queries = pytrend.related_queries()
-
+        interest_overTime = pytrend.interest_over_time()
         dc = interest_by_region_df.loc[(interest_by_region_df != 0).any(axis=1)]
         column_name = dc.columns.values
         dc = dc.sort_values(by=column_name[0],ascending= False).iloc[0:10]
@@ -58,7 +58,7 @@ class ScorceCode:
         return digital_marketing , analog_marketing
 
 
-    def RecommendationText(analog,digital):
+    def RecommendationText(count,analog,digital):
         recommedantion = ''
 
         maxAnag = 0
@@ -100,10 +100,10 @@ class ScorceCode:
 
 
         if maxDigi > maxAnag:
-            recommedantion =  'Thes most popular analog marketing in this country is ' + Anag_Name  +' and the most popular digital marketing is ' + Digi_Name + '.\n' + \
+            recommedantion =  'Thes most popular analog marketing in ' + count + ' is ' + Anag_Name  +' and the most popular digital marketing is ' + Digi_Name + '.\n' + \
                               'As the results show the most recommended approach of marketing is the Digital marketing approach'
         else:
-            recommedantion = 'Thes most popular analog marketing in this country is ' + Anag_Name + 'and the most popular digital marketing is ' + Digi_Name + '.\n' + \
+            recommedantion = 'Thes most popular analog marketing in ' + count + ' is ' + Anag_Name + 'and the most popular digital marketing is ' + Digi_Name + '.\n' + \
                              'As the results show the most recommended approach of marketing is the Analog marketing approach'
 
         print(recommedantion)

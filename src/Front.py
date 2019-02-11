@@ -35,13 +35,9 @@ class App(QMainWindow):
 
 class MyTableWidget(QWidget):
 
-
-
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
         self.layout = QVBoxLayout(self)
-
-
 
         # The dataframe
         self.df = pd.DataFrame()
@@ -86,22 +82,27 @@ class MyTableWidget(QWidget):
 
         # Initialize tab screen
         self.tabs = QTabWidget()
-        self.tab1 = QWidget()
-        self.tab4 = QWidget()
+        self.tabInput = QWidget()
+        self.tabTrendingScore = QWidget()
+        self.tabComparision = QWidget()
+        self.tabRelated = QWidget()
         self.tabs.resize(480, 320)
 
         # Add tabs
-        self.tabs.addTab(self.tab1, "The Input Tab")
-        self.tabs.addTab(self.tab4, "The Recommendation")
+        self.tabs.addTab(self.tabInput, "The Input Tab")
+        self.tabs.addTab(self.tabTrendingScore, "The TrendingScore")
+        self.tabs.addTab(self.tabComparision, "The Comparision")
+        self.tabs.addTab(self.tabTrendingScore, "The TrendingScore")
+        self.tabs.addTab(self.tabRelated, "Related")
 
-        self.tab1form = QFormLayout()
+        self.tabInputform = QFormLayout()
 
-        self.tab1form.addRow(self.productLabel,self.productTextBox)
-        self.tab1form.addRow(self.countryLabel,self.countryTextBox)
-        self.tab1form.addRow(self.submitButton,self.clearAllButton)
+        self.tabInputform.addRow(self.productLabel,self.productTextBox)
+        self.tabInputform.addRow(self.countryLabel,self.countryTextBox)
+        self.tabInputform.addRow(self.submitButton,self.clearAllButton)
 
 
-        self.tab1.setLayout(self.tab1form)
+        self.tabInput.setLayout(self.tabInputform)
 
         # Add tabs to widget
         self.layout.addWidget(self.tabs)
@@ -119,10 +120,10 @@ class MyTableWidget(QWidget):
         self.canvasComp = FigureCanvas(self.figureComp)
         # this is the Navigation widget
         # Set a table to show the data
-        self.tab4Form = QFormLayout()
-        self.tab4Formsub = QHBoxLayout()
-        #self.tab4Formsub1 = QFormLayout()
-        #self.tab4Formsub2 = QFormLayout()
+        self.tabTrendingScoreForm = QFormLayout()
+        self.tabTrendingScoreFormsub = QHBoxLayout()
+        #self.tabTrendingScoreFormsub1 = QFormLayout()
+        #self.tabTrendingScoreFormsub2 = QFormLayout()
         self.tablewidget = QTableWidget()
         self.tablewidget2 = QTableWidget()
         self.tablewidget.adjustSize()
@@ -143,19 +144,19 @@ class MyTableWidget(QWidget):
         self.test2 = QLabel('test')
         self.test3 = QLabel('test')
         self.test4 = QLabel('test')
-        self.tab4Formsub.addWidget(self.relQuerry)
-        self.tab4Formsub.addWidget(self.tablewidget)
-        self.tab4Formsub.addWidget(self.relTop)
-        self.tab4Formsub.addWidget(self.tablewidget2)
-        self.tab4Formsub.addWidget(self.recommendationText)
-        self.tab4Form.addRow(self.linechartLabel,self.canvas)
-        self.tab4Form.addRow(self.barchartLabel,self.canvasComp)
+        self.tabTrendingScoreFormsub.addWidget(self.relQuerry)
+        self.tabTrendingScoreFormsub.addWidget(self.tablewidget)
+        self.tabTrendingScoreFormsub.addWidget(self.relTop)
+        self.tabTrendingScoreFormsub.addWidget(self.tablewidget2)
+        self.tabTrendingScoreFormsub.addWidget(self.recommendationText)
+        self.tabTrendingScoreForm.addRow(self.linechartLabel,self.canvas)
+        self.tabTrendingScoreForm.addRow(self.barchartLabel,self.canvasComp)
 
-        self.tab4Form.addRow(self.tab4Formsub)
-        #self.tab4Form.addRow(self.relQuerry,self.tablewidget)
-        #self.tab4Form.addRow(self.relTop,self.tablewidget2)
-        self.tab4.setLayout(self.tab4Form)
-        #self.tab4Form.addRow(self.recommendationText)
+        self.tabTrendingScoreForm.addRow(self.tabTrendingScoreFormsub)
+        #self.tabTrendingScoreForm.addRow(self.relQuerry,self.tablewidget)
+        #self.tabTrendingScoreForm.addRow(self.relTop,self.tablewidget2)
+        self.tabTrendingScore.setLayout(self.tabTrendingScoreForm)
+        #self.tabTrendingScoreForm.addRow(self.recommendationText)
 
 
         #Provide labels and data as lists and the number of subplot to draw the bar chart
@@ -189,8 +190,6 @@ class MyTableWidget(QWidget):
 
     # Function while the button is clicked.
     def on_click(self):
-        print("\n")
-        print(self.productTextBox.text())
         self.productName=self.productTextBox.text()
         self.countryName = self.countryTextBox.text()
         # Draw the comparison bar chart
@@ -211,7 +210,7 @@ class MyTableWidget(QWidget):
         Fil = analog['Fliers'].mean()
         dataa = [N, B, BUS, ADS, Fil]
 
-        ReccomendedString = ScorceCode.RecommendationText(dataa,datad)
+        ReccomendedString = ScorceCode.RecommendationText(self.countryName,dataa,datad)
         self.recommendationText.setText(ReccomendedString)
 
         self.barPainting(labela,dataa,121)
@@ -236,9 +235,6 @@ class MyTableWidget(QWidget):
         # hit only if we have values on all the four components
         #if (self.productTextBox.text()):
 
-            print("Inside the plot method")
-            # Call the api #TODO
-            print('plotBreak')
             # create an axis
             ax = self.figure.add_subplot(111)
 
