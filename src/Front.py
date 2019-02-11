@@ -6,7 +6,7 @@ from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pandas as pd
 from matplotlib.figure import Figure
-from src.MainCodefinal import ScorceCode
+from src.Back import ScorceCode
 
 
 class App(QMainWindow):
