@@ -1,12 +1,12 @@
 
 import sys
-from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget,QTextEdit, QMainWindow, QApplication, QPushButton, QWidget, QAction, QTabWidget, \
-    QVBoxLayout,QHBoxLayout, QDesktopWidget, QFormLayout, QLabel, QLineEdit, QComboBox, QMessageBox
+from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QMainWindow, QApplication, QPushButton, QWidget, QTabWidget, \
+    QVBoxLayout,QHBoxLayout, QDesktopWidget, QFormLayout, QLabel, QLineEdit
 from PyQt5.QtGui import QIcon
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pandas as pd
 from matplotlib.figure import Figure
-from MainCodefinal import ScorceCode
+from src.MainCodefinal import ScorceCode
 
 
 class App(QMainWindow):
