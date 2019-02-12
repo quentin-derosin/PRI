@@ -150,12 +150,10 @@ class MyTableWidget(QWidget):
         self.recommendationText.setToolTip("This tab shows the recommendation ")
         self.relQuerry = QLabel('Related Querry')
         self.relTop = QLabel('Related Topics')
-        self.linechartLabel = QLabel('The trends')
-        self.barchartLabel = QLabel('The comparision')
         self.relTop.setMaximumSize(100,100)
         self.relQuerry.setMaximumSize(100,100)
 
-        self.tabTrendingScoreForm.addRow(self.linechartLabel,self.canvas)
+        self.tabTrendingScoreForm.addRow(self.canvas)
 
         self.tabTrendingScoreForm.addRow(self.tabTrendingScoreFormsub)
         self.tabTrendingScore.setLayout(self.tabTrendingScoreForm)
@@ -163,7 +161,7 @@ class MyTableWidget(QWidget):
         self.tabComparisionFormSub.addWidget(self.recommendationText)
         self.tabComparisionFormSub.setAlignment(Qt.AlignCenter)
 
-        self.tabComparisionForm.addRow(self.barchartLabel,self.canvasComp)
+        self.tabComparisionForm.addRow(self.canvasComp)
         self.tabComparisionForm.addRow(self.tabComparisionFormSub)
         self.tabComparision.setLayout(self.tabComparisionForm)
 
