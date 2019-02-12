@@ -18,10 +18,14 @@ class App(QMainWindow):
         self.top = 200
         self.width = 700
         self.height = 100
+        self.my_line_edit = QLineEdit()
+
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.top, self.width, self.height)
         self.setWindowIcon(QIcon('six_sigma.ico'))
+        # self.my_line_edit = QtGui.QLineEdit()
 
+        # self.my_line_edit.setStyleSheet("color: red;")
         self.table_widget = MyTableWidget(self)
         self.setCentralWidget(self.table_widget)
 
@@ -38,6 +42,8 @@ class MyTableWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
         self.layout = QVBoxLayout(self)
+        # self.setStyleSheet("background-color: rgb(73,120,120);")
+
 
         # The dataframe
         self.df = pd.DataFrame()
@@ -77,8 +83,6 @@ class MyTableWidget(QWidget):
         self.clearAllButton.resize(self.clearAllButton.sizeHint())
         self.clearAllButton.setToolTip("To clear all the fields")
         self.clearAllButton.clicked.connect(self.clear_on_click)
-
-
 
         # Initialize tab screen
         self.tabs = QTabWidget()
@@ -122,15 +126,22 @@ class MyTableWidget(QWidget):
         # Set a table to show the data
         self.tabTrendingScoreForm = QFormLayout()
         self.tabTrendingScoreFormsub = QHBoxLayout()
-        #self.tabTrendingScoreFormsub1 = QFormLayout()
-        #self.tabTrendingScoreFormsub2 = QFormLayout()
-        self.tablewidget = QTableWidget()
-        self.tablewidget2 = QTableWidget()
-        self.tablewidget.adjustSize()
-        self.tablewidget.setMaximumSize(300,80)
-        self.tablewidget2.setMaximumSize(300,80)
-        self.tablewidget.horizontalHeader().setStretchLastSection(True)
-        self.tablewidget2.horizontalHeader().setStretchLastSection(True)
+
+
+        self.tabComparisionForm = QFormLayout()
+        self.tabComparisionFormSub = QHBoxLayout()
+        self.tabRelatedForm = QFormLayout()
+        self.tabRelatedBox = QHBoxLayout()
+
+
+
+        self.widgetRelatedTopics = QTableWidget()
+        self.widgetRelatedQuery = QTableWidget()
+        self.widgetRelatedTopics.adjustSize()
+        self.widgetRelatedTopics.setMaximumSize(1500,16000)
+        self.widgetRelatedQuery.setMaximumSize(1500,1600)
+        self.widgetRelatedTopics.horizontalHeader().setStretchLastSection(True)
+        self.widgetRelatedQuery.horizontalHeader().setStretchLastSection(True)
         self.recommendationText = QLabel()
         self.recommendationText.setMinimumSize(400,100)
         self.recommendationText.setToolTip("This tab shows the recommendation ")
@@ -140,24 +151,23 @@ class MyTableWidget(QWidget):
         self.barchartLabel = QLabel('The comparision')
         self.relTop.setMaximumSize(100,100)
         self.relQuerry.setMaximumSize(100,100)
-        self.test1 = QLabel('test')
-        self.test2 = QLabel('test')
-        self.test3 = QLabel('test')
-        self.test4 = QLabel('test')
-        self.tabTrendingScoreFormsub.addWidget(self.relQuerry)
-        self.tabTrendingScoreFormsub.addWidget(self.tablewidget)
-        self.tabTrendingScoreFormsub.addWidget(self.relTop)
-        self.tabTrendingScoreFormsub.addWidget(self.tablewidget2)
-        self.tabTrendingScoreFormsub.addWidget(self.recommendationText)
+
         self.tabTrendingScoreForm.addRow(self.linechartLabel,self.canvas)
-        self.tabTrendingScoreForm.addRow(self.barchartLabel,self.canvasComp)
 
         self.tabTrendingScoreForm.addRow(self.tabTrendingScoreFormsub)
-        #self.tabTrendingScoreForm.addRow(self.relQuerry,self.tablewidget)
-        #self.tabTrendingScoreForm.addRow(self.relTop,self.tablewidget2)
         self.tabTrendingScore.setLayout(self.tabTrendingScoreForm)
-        #self.tabTrendingScoreForm.addRow(self.recommendationText)
 
+        self.tabComparisionFormSub.addWidget(self.recommendationText)
+        self.tabComparisionForm.addRow(self.barchartLabel,self.canvasComp)
+        self.tabComparisionForm.addRow(self.tabComparisionFormSub)
+        self.tabComparision.setLayout(self.tabComparisionForm)
+
+        self.tabRelatedBox.addWidget(self.relQuerry)
+        self.tabRelatedBox.addWidget(self.widgetRelatedTopics)
+        self.tabRelatedBox.addWidget(self.relTop)
+        self.tabRelatedBox.addWidget(self.widgetRelatedQuery)
+        self.tabRelatedForm.addRow(self.tabRelatedBox)
+        self.tabRelated.setLayout(self.tabRelatedForm)
 
         #Provide labels and data as lists and the number of subplot to draw the bar chart
     def barPainting(self,labels,data,n_subplot):
@@ -165,14 +175,14 @@ class MyTableWidget(QWidget):
         self.axes = self.figureComp.add_subplot(n_subplot)
         self.axes.clear()
         self.axes.barh(labels,data,width,align="center")
-        #self.axes.set_xticks([0,1,2,3])
+
         self.axes.set_yticklabels(labels, rotation=40)
         self.axes.tick_params(axis='y', labelsize=5)
         self.canvasComp.draw()
 
 
 
-    # Create the data table in tab 4, parameter is the table you want to set(tablewidget and tablewidget2)
+    # Create the data table in tab 4, parameter is the table you want to set(widgetRelatedTopics and widgetRelatedQuery)
     def createTable(self,tableWidget):
         # Create table
         # find the table length
@@ -217,9 +227,9 @@ class MyTableWidget(QWidget):
         self.barPainting(labeld,datad,122)
         # Generate the related top and querry in the tab 4
         self.gs = rel_quer
-        self.createTable(self.tablewidget)
+        self.createTable(self.widgetRelatedTopics)
         self.gs = rel_top
-        self.createTable(self.tablewidget2)
+        self.createTable(self.widgetRelatedQuery)
         # Paint the line chart
         self.plot(ls)
 
