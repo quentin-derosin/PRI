@@ -5,7 +5,7 @@ import pycountry
 from pytrends.request import TrendReq
 
 
-class ScorceCode:
+class Server:
 
    #User enters the country value
     # somehow find a way to map the name of the country to country codes

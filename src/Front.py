@@ -3,10 +3,12 @@ import sys
 from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QMainWindow, QApplication, QPushButton, QWidget, QTabWidget, \
     QVBoxLayout,QHBoxLayout, QDesktopWidget, QFormLayout, QLabel, QLineEdit
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
+from PyQt5 import QtGui
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pandas as pd
 from matplotlib.figure import Figure
-from src.Back import ScorceCode
+from src.Back import Server
 
 
 class App(QMainWindow):
@@ -133,6 +135,7 @@ class MyTableWidget(QWidget):
         self.tabRelatedForm = QFormLayout()
         self.tabRelatedBox = QHBoxLayout()
 
+        self.font = QtGui.QFont("Times", 8, QtGui.QFont.Bold)
 
 
         self.widgetRelatedTopics = QTableWidget()
@@ -143,7 +146,7 @@ class MyTableWidget(QWidget):
         self.widgetRelatedTopics.horizontalHeader().setStretchLastSection(True)
         self.widgetRelatedQuery.horizontalHeader().setStretchLastSection(True)
         self.recommendationText = QLabel()
-        self.recommendationText.setMinimumSize(400,100)
+        self.recommendationText.setMinimumSize(800,200)
         self.recommendationText.setToolTip("This tab shows the recommendation ")
         self.relQuerry = QLabel('Related Querry')
         self.relTop = QLabel('Related Topics')
@@ -156,8 +159,10 @@ class MyTableWidget(QWidget):
 
         self.tabTrendingScoreForm.addRow(self.tabTrendingScoreFormsub)
         self.tabTrendingScore.setLayout(self.tabTrendingScoreForm)
-
+        self.recommendationText.setStyleSheet("font-size: 25px; font-style: bold")
         self.tabComparisionFormSub.addWidget(self.recommendationText)
+        self.tabComparisionFormSub.setAlignment(Qt.AlignCenter)
+
         self.tabComparisionForm.addRow(self.barchartLabel,self.canvasComp)
         self.tabComparisionForm.addRow(self.tabComparisionFormSub)
         self.tabComparision.setLayout(self.tabComparisionForm)
@@ -203,8 +208,8 @@ class MyTableWidget(QWidget):
         self.productName=self.productTextBox.text()
         self.countryName = self.countryTextBox.text()
         # Draw the comparison bar chart
-        ls, rel_quer, rel_top = ScorceCode.forCountry(self.countryName,self.productName)
-        digital, analog = ScorceCode.forCountryMarketing(self.countryName)
+        ls, rel_quer, rel_top = Server.forCountry(self.countryName,self.productName)
+        digital, analog = Server.forCountryMarketing(self.countryName)
         labeld = ['Email Marketing','Radio Advertising','Mobile Marketing','Television Advertising','Facebook Advertisement']
         labela = ['Newspaper Marketing','Billboards','Bus Shelter Ads','Print Ads','Fliers']
         E = digital['Email marketing'].mean()  # Print average popularity for marketing on this country
@@ -220,7 +225,7 @@ class MyTableWidget(QWidget):
         Fil = analog['Fliers'].mean()
         dataa = [N, B, BUS, ADS, Fil]
 
-        ReccomendedString = ScorceCode.RecommendationText(self.countryName,dataa,datad)
+        ReccomendedString = Server.RecommendationText(self.countryName,dataa,datad)
         self.recommendationText.setText(ReccomendedString)
 
         self.barPainting(labela,dataa,121)
