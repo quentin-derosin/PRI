@@ -44,7 +44,7 @@ class MyTableWidget(QWidget):
     def __init__(self, parent):
         super(QWidget, self).__init__(parent)
         self.layout = QVBoxLayout(self)
-        # self.setStyleSheet("background-color: rgb(73,120,120);")
+        self.setStyleSheet("background-color: rgb(73,120,120);")
 
 
         # The dataframe
@@ -164,12 +164,11 @@ class MyTableWidget(QWidget):
         self.tabComparisionForm.addRow(self.canvasComp)
         self.tabComparisionForm.addRow(self.tabComparisionFormSub)
         self.tabComparision.setLayout(self.tabComparisionForm)
-
-        self.tabRelatedBox.addWidget(self.relQuerry)
-        self.tabRelatedBox.addWidget(self.widgetRelatedTopics)
-        self.tabRelatedBox.addWidget(self.relTop)
-        self.tabRelatedBox.addWidget(self.widgetRelatedQuery)
-        self.tabRelatedForm.addRow(self.tabRelatedBox)
+        self.relQuerry.setAlignment(Qt.AlignCenter)
+        self.tabRelatedForm.addRow(self.relQuerry)
+        self.tabRelatedForm.addRow(self.widgetRelatedQuery)
+        self.tabRelatedForm.addRow(self.relTop)
+        self.tabRelatedForm.addRow(self.widgetRelatedTopics)
         self.tabRelated.setLayout(self.tabRelatedForm)
 
         #Provide labels and data as lists and the number of subplot to draw the bar chart
