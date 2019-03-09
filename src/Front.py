@@ -8,7 +8,7 @@ from PyQt5 import QtGui
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import pandas as pd
 from matplotlib.figure import Figure
-from src.Back import Server
+from PRI.src.Back import Server
 
 
 class App(QMainWindow):
@@ -54,15 +54,19 @@ class MyTableWidget(QWidget):
         # Initialize the labels for the first tab
 
         self.productLabel = QLabel("Product", self)
+        self.productLabel.setStyleSheet("font: bold; font-size: 16px;")
         self.countryLabel = QLabel("Country", self)
+        self.countryLabel.setStyleSheet("font: bold; font-size: 16px")
 
         # Initialise the textbox for all the labels along with the tooltips
 
         self.productTextBox = QLineEdit(self)
-
         self.productTextBox.setToolTip("Enter the product here")
+        self.productTextBox.setStyleSheet("font: bold; font-size: 16px;")
         self.countryTextBox = QLineEdit(self)
         self.countryTextBox.setToolTip("Enter the country here")
+        self.countryTextBox.setStyleSheet("font: bold; font-size: 16px;")
+
 
 
 
@@ -78,6 +82,7 @@ class MyTableWidget(QWidget):
         self.submitButton.setToolTip("To submit and get results")
         self.submitButton.resize(self.submitButton.sizeHint())
         self.submitButton.clicked.connect(self.on_click)
+        self.submitButton.setStyleSheet("background: white; height: 50px; max-width: 400px; font: bold; font-size: 30px; text-align: center")
         self.show()
 
 
@@ -85,6 +90,7 @@ class MyTableWidget(QWidget):
         self.clearAllButton.resize(self.clearAllButton.sizeHint())
         self.clearAllButton.setToolTip("To clear all the fields")
         self.clearAllButton.clicked.connect(self.clear_on_click)
+        self.clearAllButton.setStyleSheet("background: white; font: bold;")
 
         # Initialize tab screen
         self.tabs = QTabWidget()
@@ -105,7 +111,7 @@ class MyTableWidget(QWidget):
 
         self.tabInputform.addRow(self.productLabel,self.productTextBox)
         self.tabInputform.addRow(self.countryLabel,self.countryTextBox)
-        self.tabInputform.addRow(self.submitButton,self.clearAllButton)
+        self.tabInputform.addRow(self.clearAllButton,self.submitButton)
 
 
         self.tabInput.setLayout(self.tabInputform)
@@ -148,16 +154,18 @@ class MyTableWidget(QWidget):
         self.recommendationText = QLabel()
         self.recommendationText.setMinimumSize(800,200)
         self.recommendationText.setToolTip("This tab shows the recommendation ")
-        self.relQuerry = QLabel('Related Querry')
+        self.relQuerry = QLabel('Related Query')
+        self.relQuerry.setStyleSheet("font: bold; font-size: 20px; width : auto; text-align: left")
         self.relTop = QLabel('Related Topics')
-        self.relTop.setMaximumSize(100,100)
-        self.relQuerry.setMaximumSize(100,100)
+        self.relTop.setStyleSheet("font: bold; font-size: 20px; width: auto; text-align: left")
+        self.relTop.setMaximumSize(400,400)
+        self.relQuerry.setMaximumSize(400,400)
 
         self.tabTrendingScoreForm.addRow(self.canvas)
 
         self.tabTrendingScoreForm.addRow(self.tabTrendingScoreFormsub)
         self.tabTrendingScore.setLayout(self.tabTrendingScoreForm)
-        self.recommendationText.setStyleSheet("font-size: 25px; font-style: bold")
+        self.recommendationText.setStyleSheet("font-size: 25px; font-style: bold; text-align: center;")
         self.tabComparisionFormSub.addWidget(self.recommendationText)
         self.tabComparisionFormSub.setAlignment(Qt.AlignCenter)
 
