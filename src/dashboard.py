@@ -11,6 +11,8 @@ from pytrends.request import TrendReq
 def forCountry(Country, product):
     pytrend = TrendReq()
     ctemp=pycountry.countries.get(name=Country.title())
+    if ctemp is None:
+        return None
     print(Country.title())
     pytrend.build_payload(kw_list=[product], geo=ctemp.alpha_2)
     interest_by_region_df = pytrend.interest_by_region(resolution='REGION')
@@ -40,7 +42,7 @@ def forCountry(Country, product):
 
         list_of_related_topics = related_tarray.values.tolist()
 
-    return dc, list_of_related_queries, list_of_related_topics
+    return dc
 
 
 def forCountryMarketing(Country):
@@ -51,7 +53,7 @@ def forCountryMarketing(Country):
     pytrend.build_payload(kw_list=['Newspaper Marketing', 'Billboards', 'Bus Shelter Ads', 'Print Ads','Fliers'],geo=ctemp.alpha_2)
     analog_marketing = pytrend.interest_by_region(resolution='REGION')
 
-    return digital_marketing , analog_marketing
+    return digital_marketing, analog_marketing
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -71,22 +73,26 @@ app.layout = html.Div(children=[
 @app.callback(dash.dependencies.Output("result", "children"), [
     dash.dependencies.Input("product", "value"),
     dash.dependencies.Input("country", "value"),
+    dash.dependencies.Input("button", "n_clicks"),
 ])
-def display_results(product, country):
-    trend, table_1, table_2 = forCountry(country, product)
-    digital, analog = forCountryMarketing(country)
-    pass
+def display_results(product, country, n_clicks):
+    if n_clicks is not None:
+        trend = forCountry(country, product)
+        if trend is None:
+            return html.H1(children="Please enter good country", style={'color': 'red', 'fontSize': 20})
+        digital, analog = forCountryMarketing(country)
+        pass
 
-    return dcc.Graph(
-            figure={
-                "data": [
-                    go.Bar(
-                        x=trend[product].index,
-                        y=trend[product].values
-                    )
-                ]
-            }
-        )
+        return dcc.Graph(
+                figure={
+                    "data": [
+                        go.Bar(
+                            x=trend[product].index,
+                            y=trend[product].values
+                        )
+                    ]
+                }
+            )
 
 
 
