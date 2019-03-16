@@ -66,7 +66,20 @@ app.layout = html.Div(children=[
     dcc.Input(placeholder="Product", type="text", value="", id="product"),
     dcc.Input(placeholder="Country", type="text", value="", id="country"),
     html.Button("Submit", id="button"),
-    html.Div(id="result")#, style={"columnCount": 2}),
+    html.Div([
+       dcc.Tabs(id="tabs", children=[
+           dcc.Tab(label="Trending", children=[
+               # html.H3(children="Enter product and country and click on summit"),
+               html.Div(id="result")
+           ]),
+           dcc.Tab(label="Analog vs Digital", children=[
+               html.Div(children="hujuh")
+           ]),
+           dcc.Tab(label="Related Topic", children=[
+               html.Div(children="Related Topic")
+           ])
+       ])
+    ]),
 ])
 
 
@@ -80,7 +93,7 @@ def display_results(product, country, n_clicks):
         trend = forCountry(country, product)
         if trend is None:
             return html.H1(children="Please enter good country", style={'color': 'red', 'fontSize': 20})
-        digital, analog = forCountryMarketing(country)
+        # digital, analog = forCountryMarketing(country)
         pass
 
         return dcc.Graph(
@@ -93,6 +106,8 @@ def display_results(product, country, n_clicks):
                     ]
                 }
             )
+    else:
+        return html.H3(children="Enter product and country and click on summit")
 
 
 
