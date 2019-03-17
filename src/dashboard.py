@@ -87,6 +87,7 @@ app.layout = html.Div(children=[
     html.Header(children=[
         html.Div([
             html.H1(children="Trend analyzer"),
+            html.Img(src="/assets/logo_epita.png"),
             html.H3(children="by Quentin DEROSIN & Amaury JULIEN")], className="title-text"),
         html.Div([
             html.P([html.Strong("Trend Analyzer")," is a powerful tool made for marketers."]),
