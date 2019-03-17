@@ -124,8 +124,8 @@ app.layout = html.Div(children=[
             html.P("Then our algorithms will provide you useful information such as :"),
             html.Ul([html.Li("- Trending : How much this product is searched in Google for each region of the given country"),
                      html.Li("- Analog / Digital : Is the product more searched with analog or digital ways"),
-                     html.Li("- Results : Our algorithms' recommendation to market the product the best way."),
-                     html.Li("This tab also suggests related products to make the study more accurate.", style={'margin-left': '95px'})])
+                     html.Li("- Related topics : This tab also suggests related products to make the study more accurate.")]),
+            html.P("Finally, our artificial intelligence gives you the best approach to market your product based on previous results.")
         ]),
         html.Div([html.A("Give it a try !", href='#search', className="search_button")], className="center")
     ]),
@@ -141,10 +141,14 @@ app.layout = html.Div(children=[
             ]),
             dcc.Tab(label="Analog vs Digital", value="tab-anavsdig", children=[
             ]),
-            dcc.Tab(label="Related Topic", value="tab-related", children=[
+            dcc.Tab(label="Related Topics", value="tab-related", children=[
             ])
         ]),
-        html.Div(id="tabs-content")], id='results')
+        html.Div(id="tabs-content")], id='results'),
+    html.Div([
+        html.H2("Analysis"),
+        html.P("//To fill with custom analysis")
+    ], id="analysis"),
 ], id="body")
 
 

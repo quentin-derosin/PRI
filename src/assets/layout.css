@@ -70,3 +70,8 @@ h2 {
 #button { margin: -3px 7%; }
 
 #results { min-height: 600px; }
+
+#analysis {
+   height: 150px;
+   margin-top: 30px;
+}
