@@ -57,6 +57,11 @@ def getRelatedTopic(product):
 
         list_of_related_topics = related_tarray.values.tolist()
 
+        if len(list_of_related_topics) > len(list_of_related_queries):
+            list_of_related_topics = list_of_related_topics[0:len(list_of_related_topics)-1]
+        elif len(list_of_related_topics) < len(list_of_related_queries):
+            list_of_related_queries = list_of_related_queries[0:len(list_of_related_queries) - 1]
+
         return pd.DataFrame(OrderedDict([
             ('related_query', list_of_related_queries),
             ('related_topic', list_of_related_topics),
@@ -154,10 +159,7 @@ def display_results(n_clicks, tab, product, country):
             result_related = html.Div(children=[
                 html.Br(),
                 dash_table.DataTable(id="table-related",
-                                     style_header={'backgroundColor': 'rgb(30, 30, 30)'},
                                      style_cell={'textAlign': 'center',
-                                                 'backgroundColor': 'rgb(50, 50, 50)',
-                                                 'color': 'white'
                                                  },
                                      columns=(
                                              [{'id': 'related_topic', 'name': 'Related Topic'}] +
