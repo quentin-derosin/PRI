@@ -122,12 +122,10 @@ def display_results(n_clicks, tab, product, country):
             # digital, analog = forCountryMarketing(country)
 
             df_related = getRelatedTopic(product)
-            # df_related = pd.DataFrame(OrderedDict([
-            #     ('related_query', related_query),
-            #     ('related_topic', related_topic),
-            # ]))
-            pass
             n_clicks = 0
+
+            pass
+ 
             result_trending = dcc.Graph(
                 figure={
                     "data": [
