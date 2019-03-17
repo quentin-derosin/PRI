@@ -48,7 +48,9 @@ header .title-text h3 {
    margin: auto;
 }
 
-.search_button {
+#search { height: 200px; margin: 0;}
+
+#button, .search_button {
    box-sizing: border-box;
    background-color: #0B77A6;
    padding: 0.4em;
@@ -59,7 +61,12 @@ header .title-text h3 {
    text-align: center;
    display: inline-block;
    margin: 15px;
-
 }
 
+h2 {
+   margin-bottom: 30px;
+}
 
+#button { margin: -3px 7%; }
+
+#results { min-height: 600px; }

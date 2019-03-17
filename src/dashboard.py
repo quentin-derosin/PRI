@@ -103,11 +103,12 @@ app.layout = html.Div(children=[
         html.Div([html.A("Give it a try !", href='#search', className="search_button")], className="center")
     ]),
     html.Div([
-        html.H3("Search engine"),
-        dcc.Input(placeholder="Product", type="text", value="", id="product", className="four columns"),
+        html.H2("Search engine"),
+        dcc.Input(placeholder="Product", type="text", value="", id="product", className="four columns", style={'margin-left': '0px'}),
         dcc.Input(placeholder="Country", type="text", value="", id="country", className="four columns"),
         html.Button("Submit", id="button")], id="search", className="row"),
     html.Div([
+        html.H2("Results"),
         dcc.Tabs(id="tabs", children=[
             dcc.Tab(label="Trending", value="tab-trending", children=[
             ]),
@@ -116,8 +117,7 @@ app.layout = html.Div(children=[
             dcc.Tab(label="Related Topic", value="tab-related", children=[
             ])
         ]),
-        html.Div(id="tabs-content")
-    ]),
+        html.Div(id="tabs-content")], id='results')
 ], id="body")
 
 

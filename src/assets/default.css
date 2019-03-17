@@ -635,7 +635,7 @@ input[type="checkbox"] { display: inline; }
 .row .one         { width: 8.33333%; }
 .row .two         { width: 16.66667%; }
 .row .three       { width: 25%; }
-.row .four        { width: 33.33333%; }
+.row .four        { width: 33.33333%; margin: 0 30px; }
 .row .five        { width: 41.66667%; }
 .row .six         { width: 50%; }
 .row .seven       { width: 58.33333%; }
