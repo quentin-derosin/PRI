@@ -64,7 +64,7 @@ def getRelatedTopic(product):
         list_of_related_topics = related_tarray.values.tolist()
 
         if len(list_of_related_topics) > len(list_of_related_queries):
-            list_of_related_topics = list_of_related_topics[0:len(list_of_related_topics) - 1]
+            list_of_related_topics = list_of_related_topics[0:len(list_of_related_topics)-1]
         elif len(list_of_related_topics) < len(list_of_related_queries):
             list_of_related_queries = list_of_related_queries[0:len(list_of_related_queries) - 1]
 
@@ -114,19 +114,19 @@ app.layout = html.Div(children=[
     html.Header(children=[
         html.Div([
             html.H1(children="Trend analyzer"),
+            html.Img(src="/assets/logo_epita.png"),
             html.H3(children="by Quentin DEROSIN & Amaury JULIEN")], className="title-text"),
+        html.Br(),
         html.Div([
-            html.P([html.Strong("Trend Analyzer"), " is a powerful tool made for marketers."]),
+            html.P([html.Strong("Trend Analyzer")," is a powerful tool made for marketers."]),
             html.P("It has been developed to help professionals making decision when marketing a product."),
             html.H3("How does it work ?"),
             html.P("First of all, you to select the product to be marketed and the target country"),
             html.P("Then our algorithms will provide you useful information such as :"),
-            html.Ul([html.Li(
-                "- Trending : How much this product is searched in Google for each region of the given country"),
+            html.Ul([html.Li("- Trending : How much this product is searched in Google for each region of the given country"),
                      html.Li("- Analog / Digital : Is the product more searched with analog or digital ways"),
                      html.Li("- Results : Our algorithms' recommendation to market the product the best way."),
-                     html.Li("This tab also suggests related products to make the study more accurate.",
-                             style={'margin-left': '95px'})])
+                     html.Li("This tab also suggests related products to make the study more accurate.", style={'margin-left': '95px'})])
         ]),
         html.Div([html.A("Give it a try !", href='#search', className="search_button")], className="center")
     ]),
@@ -232,11 +232,11 @@ def display_results(n_clicks, tab, product, country):
                 return result_related
     else:
         if tab == 'tab-trending':
-            return html.H3(children="Enter product and country and click on summit")
+            return html.H3(children="Enter product and country and click on submit")
         elif tab == 'tab-anavsdig':
-            return html.H3(children="Enter country and click on summit")
+            return html.H3(children="Enter country and click on submit")
         elif tab == 'tab-related':
-            return html.H3(children="Enter product and click on summit")
+            return html.H3(children="Enter product and click on submit")
 
 
 if __name__ == '__main__':
