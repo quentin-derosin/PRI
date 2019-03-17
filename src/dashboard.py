@@ -179,16 +179,16 @@ def display_results(n_clicks, tab, product, country):
             if tab == 'tab-trending':
                 return result_trending
             elif tab == 'tab-anavsdig':
-                return html.H3(children="Enter country and click on summit")
+                return html.H3(children="Enter country and click on submit")
             elif tab == 'tab-related':
                 return result_related
     else:
         if tab == 'tab-trending':
-            return html.H3(children="Enter product and country and click on summit")
+            return html.H3(children="Enter product and country and click on submit")
         elif tab == 'tab-anavsdig':
-            return html.H3(children="Enter country and click on summit")
+            return html.H3(children="Enter country and click on submit")
         elif tab == 'tab-related':
-            return html.H3(children="Enter product and click on summit")
+            return html.H3(children="Enter product and click on submit")
 
 
 if __name__ == '__main__':
