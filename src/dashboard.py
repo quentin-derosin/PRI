@@ -61,11 +61,15 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 app.layout = html.Div(children=[
-    html.H1(children="Trend analyzer"),
-    html.Div(children="Blue ocean whale sharks"),
-    dcc.Input(placeholder="Product", type="text", value="", id="product"),
-    dcc.Input(placeholder="Country", type="text", value="", id="country"),
-    html.Button("Submit", id="button"),
+    html.Header(children=[
+        html.Div([
+            html.H1(children="Trend analyzer"),
+            html.H3(children="by Quentin DEROSIN & Amaury JULIEN")], className="banner-text")
+        ]),
+    html.Div(children=[
+        dcc.Input(placeholder="Product", type="text", value="", id="product", className="four columns"),
+        dcc.Input(placeholder="Country", type="text", value="", id="country", className="four columns"),
+        html.Button("Submit", id="button")], className="row"),
     html.Div([
        dcc.Tabs(id="tabs", children=[
            dcc.Tab(label="Trending", children=[
@@ -80,7 +84,7 @@ app.layout = html.Div(children=[
            ])
        ])
     ]),
-])
+], id="body")
 
 
 @app.callback(dash.dependencies.Output("result", "children"), [
