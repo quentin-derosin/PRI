@@ -64,16 +64,28 @@ app.layout = html.Div(children=[
     html.Header(children=[
         html.Div([
             html.H1(children="Trend analyzer"),
-            html.H3(children="by Quentin DEROSIN & Amaury JULIEN")], className="banner-text")
+            html.H3(children="by Quentin DEROSIN & Amaury JULIEN")], className="title-text"),
+        html.Div([
+            html.P([html.Strong("Trend Analyzer")," is a powerful tool made for marketers."]),
+            html.P("It has been developed to help professionals making decision when marketing a product."),
+            html.H3("How does it work ?"),
+            html.P("First of all, you to select the product to be marketed and the target country"),
+            html.P("Then our algorithms will provide you useful information such as :"),
+            html.Ul([html.Li("- Trending : How much this product is searched in Google for each region of the given country"),
+                     html.Li("- Analog / Digital : Is the product more searched with analog or digital ways"),
+                     html.Li("- Results : Our algorithms' recommendation to market the product the best way."),
+                     html.Li("This tab also suggests related products to make the study more accurate.", style={'margin-left': '95px'})])
         ]),
+        html.Div([html.A("Give it a try !", href='#search', className="search_button")], className="center")
+    ]),
     html.Div(children=[
         dcc.Input(placeholder="Product", type="text", value="", id="product", className="four columns"),
         dcc.Input(placeholder="Country", type="text", value="", id="country", className="four columns"),
-        html.Button("Submit", id="button")], className="row"),
+        html.Button("Submit", id="button")], id="search", className="row"),
     html.Div([
        dcc.Tabs(id="tabs", children=[
            dcc.Tab(label="Trending", children=[
-               # html.H3(children="Enter product and country and click on summit"),
+               # html.H3(children="Enter product and country and click on submit"),
                html.Div(id="result")
            ]),
            dcc.Tab(label="Analog vs Digital", children=[
