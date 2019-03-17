@@ -16,6 +16,12 @@ global result_related
 click_button = 0
 
 
+class utilGraph:
+    def __init__(self, index, value):
+        self.index = index
+        self.value = value
+
+
 def forCountry(Country, product):
     pytrend = TrendReq()
     ctemp = pycountry.countries.get(name=Country.title())
@@ -58,7 +64,7 @@ def getRelatedTopic(product):
         list_of_related_topics = related_tarray.values.tolist()
 
         if len(list_of_related_topics) > len(list_of_related_queries):
-            list_of_related_topics = list_of_related_topics[0:len(list_of_related_topics)-1]
+            list_of_related_topics = list_of_related_topics[0:len(list_of_related_topics) - 1]
         elif len(list_of_related_topics) < len(list_of_related_queries):
             list_of_related_queries = list_of_related_queries[0:len(list_of_related_queries) - 1]
 
@@ -70,13 +76,34 @@ def getRelatedTopic(product):
 
 def forCountryMarketing(Country):
     pytrend = TrendReq()
+    list_analog_name = ['Email marketing', 'Radio Advertising', 'Mobile Marketing', 'Television Advertising',
+                        'Facebook Advertisement']
+    list_digital_name = ['Newspaper Marketing', 'Billboards', 'Bus Shelter Ads', 'Print Ads', 'Fliers']
     ctemp = pycountry.countries.get(name=Country.title())
-    pytrend.build_payload(kw_list=['Email marketing', 'Radio Advertising', 'Mobile Marketing', 'Television Advertising', 'Facebook Advertisement'], geo=ctemp.alpha_2) #It can take maximum 5 products in kw_list
+    pytrend.build_payload(kw_list=list_analog_name, geo=ctemp.alpha_2)  # It can take maximum 5 products in kw_list
     digital_marketing = pytrend.interest_by_region(resolution='REGION')
-    pytrend.build_payload(kw_list=['Newspaper Marketing', 'Billboards', 'Bus Shelter Ads', 'Print Ads','Fliers'],geo=ctemp.alpha_2)
+    pytrend.build_payload(kw_list=list_digital_name, geo=ctemp.alpha_2)
     analog_marketing = pytrend.interest_by_region(resolution='REGION')
 
-    return digital_marketing, analog_marketing
+    list_analog_data = [
+        analog_marketing['Newspaper Marketing'].mean(),
+        analog_marketing['Billboards'].mean(),
+        analog_marketing['Bus Shelter Ads'].mean(),
+        analog_marketing['Print Ads'].mean(),
+        analog_marketing['Fliers'].mean()
+    ]
+
+    list_digital_data = [
+        digital_marketing['Email marketing'].mean(),
+        digital_marketing['Radio Advertising'].mean(),
+        digital_marketing['Mobile Marketing'].mean(),
+        digital_marketing['Television Advertising'].mean(),
+        digital_marketing['Facebook Advertisement'].mean(),
+    ]
+
+    digital = utilGraph(list_digital_name, list_digital_data)
+    analog = utilGraph(list_analog_name, list_analog_data)
+    return digital, analog
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -89,15 +116,17 @@ app.layout = html.Div(children=[
             html.H1(children="Trend analyzer"),
             html.H3(children="by Quentin DEROSIN & Amaury JULIEN")], className="title-text"),
         html.Div([
-            html.P([html.Strong("Trend Analyzer")," is a powerful tool made for marketers."]),
+            html.P([html.Strong("Trend Analyzer"), " is a powerful tool made for marketers."]),
             html.P("It has been developed to help professionals making decision when marketing a product."),
             html.H3("How does it work ?"),
             html.P("First of all, you to select the product to be marketed and the target country"),
             html.P("Then our algorithms will provide you useful information such as :"),
-            html.Ul([html.Li("- Trending : How much this product is searched in Google for each region of the given country"),
+            html.Ul([html.Li(
+                "- Trending : How much this product is searched in Google for each region of the given country"),
                      html.Li("- Analog / Digital : Is the product more searched with analog or digital ways"),
                      html.Li("- Results : Our algorithms' recommendation to market the product the best way."),
-                     html.Li("This tab also suggests related products to make the study more accurate.", style={'margin-left': '95px'})])
+                     html.Li("This tab also suggests related products to make the study more accurate.",
+                             style={'margin-left': '95px'})])
         ]),
         html.Div([html.A("Give it a try !", href='#search', className="search_button")], className="center")
     ]),
@@ -130,6 +159,7 @@ def display_results(n_clicks, tab, product, country):
     global click_button
     global result_trending
     global result_related
+    global result_anavsdigi
 
     if n_clicks is not None:
         if n_clicks > click_button:
@@ -138,7 +168,8 @@ def display_results(n_clicks, tab, product, country):
             trend = forCountry(country, product)
             if trend is None:
                 return html.H1(children="Please enter good country", style={'color': 'red', 'fontSize': 20})
-            # digital, analog = forCountryMarketing(country)
+
+            digital, analog = forCountryMarketing(country)
 
             df_related = getRelatedTopic(product)
             n_clicks = 0
@@ -169,17 +200,34 @@ def display_results(n_clicks, tab, product, country):
                                      )
             ])
 
+            result_anavsdigi = dcc.Graph(
+                figure={
+                    "data": [
+                        go.Bar(
+                            x=analog.index,
+                            y=analog.value,
+                            name='Analog'
+                        ),
+                        go.Bar(
+                            x=digital.index,
+                            y=digital.value,
+                            name='Digital'
+                        )
+                    ]
+                }
+            )
+
             if tab == 'tab-trending':
                 return result_trending
             elif tab == 'tab-anavsdig':
-                return html.H3(children="Enter country and click on summit")
+                return result_anavsdigi
             elif tab == 'tab-related':
                 return result_related
         else:
             if tab == 'tab-trending':
                 return result_trending
             elif tab == 'tab-anavsdig':
-                return html.H3(children="Enter country and click on summit")
+                return result_anavsdigi
             elif tab == 'tab-related':
                 return result_related
     else:
