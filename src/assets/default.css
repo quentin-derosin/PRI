@@ -628,8 +628,8 @@ input[type="checkbox"] { display: inline; }
 .row.collapsed > .columns,
 .column.collapsed, .columns.collapsed  { padding: 0; }
 
-[class*="column"] + [class*="column"]:last-child { float: right; }
-[class*="column"] + [class*="column"].end { float: right; }
+[class*="column"] + [class*="column"]:last-child { float: none; }
+[class*="column"] + [class*="column"].end { float: none; }
 
 /* column widths */
 .row .one         { width: 8.33333%; }

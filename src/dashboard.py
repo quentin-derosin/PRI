@@ -172,7 +172,7 @@ app.layout = html.Div(children=[
     html.Div([
         dcc.Interval(
             id='interval-component',
-            interval=1*1000, # in milliseconds
+            interval=1 * 1000,  # in milliseconds
             n_intervals=0
         ),
 
@@ -217,18 +217,28 @@ def display_results(n_clicks, tab, product, country):
                 }
             )
 
-            graph.related = html.Div(children=[
+            graph.related = html.Div([
                 html.Br(),
                 dash_table.DataTable(id="table-related",
+                                     # style_table={'width': '90#'},
                                      style_cell={'textAlign': 'center',
+                                                 'minWidth': '512%', 'width': '512', 'maxWidth': '512',
+                                                 'overflow': 'hidden',
+                                                 'textOverflow': 'ellipsis',
                                                  },
-                                     columns=(
-                                             [{'id': 'related_topic', 'name': 'Related Topic'}] +
-                                             [{'id': 'related_query', 'name': 'Related query'}]
-                                     ),
+                                     columns=[
+                                         {'id': 'related_topic', 'name': 'Related Topic'},
+                                         {'id': 'related_query', 'name': 'Related query'}],
+                                     css=[{
+                                         'selector': '.dash-cell div.dash-cell-value',
+                                         'rule': 'display: inline; white-space: inherit; overflow: '
+                                                 'inherit; text-overflow: inherit; '
+                                     }],
                                      data=df_related.to_dict('rows')
+
                                      )
             ])
+
 
             graph.anavsdigi = dcc.Graph(
                 figure={
