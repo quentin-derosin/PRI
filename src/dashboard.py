@@ -63,10 +63,13 @@ def getRelatedTopic(product):
 
         list_of_related_topics = related_tarray.values.tolist()
 
-        if len(list_of_related_topics) > len(list_of_related_queries):
-            list_of_related_topics = list_of_related_topics[0:len(list_of_related_queries) - 1]
+        if len(list_of_related_queries) > 8 and len(list_of_related_topics) >8:
+            list_of_related_topics = list_of_related_topics[0:8]
+            list_of_related_queries = list_of_related_queries[0:8]
+        elif len(list_of_related_topics) > len(list_of_related_queries):
+            list_of_related_topics = list_of_related_topics[0:len(list_of_related_queries)]
         elif len(list_of_related_topics) < len(list_of_related_queries):
-            list_of_related_queries = list_of_related_queries[0:len(list_of_related_topics) - 1]
+            list_of_related_queries = list_of_related_queries[0:len(list_of_related_topics)]
 
         return pd.DataFrame(OrderedDict([
             ('related_query', list_of_related_queries),
