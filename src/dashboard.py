@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import dash
+import dash_auth
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
@@ -105,10 +106,18 @@ def forCountryMarketing(Country):
     analog = utilGraph(list_analog_name, list_analog_data)
     return digital, analog
 
+VALID_USERNAME_PASSWORD_PAIRS = [
+    ['quentin', 'derosin'],
+    ['amaury','julien']
+]
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 
 app.layout = html.Div(children=[
     html.Header(children=[
