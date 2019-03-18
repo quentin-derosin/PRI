@@ -149,6 +149,9 @@ app.layout = html.Div(children=[
         html.H2("Analysis"),
         html.P("//To fill with custom analysis")
     ], id="analysis"),
+    html.Footer([
+        html.P("Quentin DEROSIN - Amaury JULIEN - EPITA PRI 2019")
+    ])
 ], id="body")
 
 
