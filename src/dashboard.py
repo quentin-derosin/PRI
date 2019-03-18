@@ -21,7 +21,9 @@ class Graphs:
     trending = None
     anavsdigi = None
     related = None
+    analysis_print = html.H2("//Toasasas fill with custom analysis")
     click_button = 0
+
 
 def forCountry(country, product):
     pytrend = TrendReq()
@@ -37,6 +39,7 @@ def forCountry(country, product):
     dc = dc.sort_values(by=column_name[0], ascending=False).iloc[0:10]
 
     return dc
+
 
 def getRelatedTopic(product):
     pytrend = TrendReq()
@@ -63,10 +66,13 @@ def getRelatedTopic(product):
 
         list_of_related_topics = related_tarray.values.tolist()
 
-        if len(list_of_related_topics) > len(list_of_related_queries):
-            list_of_related_topics = list_of_related_topics[0:len(list_of_related_queries) - 1]
+        if len(list_of_related_queries) > 8 and len(list_of_related_topics) > 8:
+            list_of_related_topics = list_of_related_topics[0:8]
+            list_of_related_queries = list_of_related_queries[0:8]
+        elif len(list_of_related_topics) > len(list_of_related_queries):
+            list_of_related_topics = list_of_related_topics[0:len(list_of_related_queries)]
         elif len(list_of_related_topics) < len(list_of_related_queries):
-            list_of_related_queries = list_of_related_queries[0:len(list_of_related_topics) - 1]
+            list_of_related_queries = list_of_related_queries[0:len(list_of_related_topics)]
 
         return pd.DataFrame(OrderedDict([
             ('related_query', list_of_related_queries),
@@ -105,6 +111,7 @@ def forCountryMarketing(Country):
     analog = utilGraph(list_analog_name, list_analog_data)
     return digital, analog
 
+
 graph = Graphs()
 
 VALID_USERNAME_PASSWORD_PAIRS = [
@@ -134,9 +141,9 @@ app.layout = html.Div(children=[
             html.P("Then our algorithms will provide you useful information such as :"),
             html.Ul([html.Li(
                 "- Trending : How much this product is searched in Google for each region of the given country"),
-                     html.Li("- Analog / Digital : Is the product more searched with analog or digital ways"),
-                     html.Li(
-                         "- Related topics : This tab also suggests related products to make the study more accurate.")]),
+                html.Li("- Analog / Digital : Is the product more searched with analog or digital ways"),
+                html.Li(
+                    "- Related topics : This tab also suggests related products to make the study more accurate.")]),
             html.P(
                 "Finally, our artificial intelligence gives you the best approach to market your product based on previous results.")
         ]),
@@ -161,8 +168,16 @@ app.layout = html.Div(children=[
         html.Div(id="tabs-content")], id='results'),
     html.Div([
         html.H2("Analysis"),
-        html.P("//To fill with custom analysis")
-    ], id="analysis"),
+    ]),
+    html.Div([
+        dcc.Interval(
+            id='interval-component',
+            interval=1*1000, # in milliseconds
+            n_intervals=0
+        ),
+
+        html.Div(id='analysis')
+    ]),
     html.Footer([
         html.P("Quentin DEROSIN - Amaury JULIEN - EPITA PRI 2019")
     ])
@@ -232,6 +247,8 @@ def display_results(n_clicks, tab, product, country):
                 }
             )
 
+            graph.analysis_print = html.H1(children="bonjour")
+
             if tab == 'tab-trending':
                 return graph.trending
             elif tab == 'tab-anavsdig':
@@ -252,6 +269,12 @@ def display_results(n_clicks, tab, product, country):
             return html.H3(children="Enter country and click on submit")
         elif tab == 'tab-related':
             return html.H3(children="Enter product and click on submit")
+
+
+@app.callback(dash.dependencies.Output('analysis', 'children'),
+              [dash.dependencies.Input('interval-component', 'n_intervals')])
+def print_analysis(n):
+    return graph.analysis_print
 
 
 if __name__ == '__main__':
