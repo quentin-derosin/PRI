@@ -206,7 +206,7 @@ def display_results(n_clicks, tab, product, country):
                 return html.H1(children="Please enter good country",
                                style={'color': 'red', 'fontSize': 20, 'text-align': 'center'}, className="align-center")
 
-            digital, analog = forCountryMarketing(country)
+            analog, digital = forCountryMarketing(country)
 
             df_related = getRelatedTopic(product)
 
@@ -262,16 +262,22 @@ def display_results(n_clicks, tab, product, country):
                 }
             )
             if analog.value[numpy.argmax(analog.value)] >= digital.value[numpy.argmax(digital.value)]:
-                analog_or_digital = Analog_or_digital("analog", analog, numpy.argmax(analog.value))
+                best = Analog_or_digital("analog", analog, numpy.argmax(analog.value))
+                bad = Analog_or_digital("digital", digital, numpy.argmax(digital.value))
+
             else:
-                analog_or_digital = Analog_or_digital("digital", digital, numpy.argmax(digital.value))
+                best = Analog_or_digital("digital", digital, numpy.argmax(digital.value))
+                bad = Analog_or_digital("analog", analog, numpy.argmax(analog.value))
+
 
             graph.analysis_print = html.Div([
                 html.H2("Analysis"),
                 html.P("In " + country.upper() + ", to market " + product.upper() +
-                       ", we advise you tu use " + analog_or_digital.name.upper() + " marketing because" +
-                       " the proportion of " + analog_or_digital.data.index[analog_or_digital.index].upper() +
-                       " witch is the most representative field is " + str(round(analog_or_digital.data.value[analog_or_digital.index])) + " %"),
+                       ", we advise you tu use " + best.name.upper() + " marketing because" +
+                       " the proportion of " + best.data.index[best.index].upper() +
+                       " witch is the most representative field is " + str(round(best.data.value[best.index])) + " %"),
+                html.P("On the contrary, " + bad.name.upper() + " is only represented with " +
+                       bad.data.index[bad.index].upper() + " at " + str(round(bad.data.value[bad.index])) + " %"),
                 html.Div([html.A("Search something else !", href='#search', className="search_button")], className="center")])
             if tab == 'tab-trending':
                 return graph.trending
