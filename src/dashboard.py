@@ -274,12 +274,10 @@ def display_results(n_clicks, tab, product, country):
                 html.P("In " + country.upper() + ", to market " + product.upper() +
                        ", we advise you tu use " + best.name.upper() + " marketing because" +
                        " the proportion of " + best.data.index[best.index].upper() +
-                       ", which is the most representative field, is " + str(
-                    round(best.data.value[best.index])) + "%."),
+                       ", which is the most representative field, is " + str(round(best.data.value[best.index])) + "%."),
                 html.P("On the contrary, " + bad.name.upper() + " is only represented with " +
                        bad.data.index[bad.index].upper() + " at " + str(round(bad.data.value[bad.index])) + " %"),
-                html.Div([html.A("Search something else !", href='#search', className="search_button")],
-                         className="center")])
+                html.Div([html.A("Search something else !", href='#search', className="search_button")], className="center")])
             if tab == 'tab-trending':
                 return graph.trending
             elif tab == 'tab-anavsdig':
@@ -287,6 +285,7 @@ def display_results(n_clicks, tab, product, country):
             elif tab == 'tab-related':
                 return graph.related
         else:
+            graph.analysis_print = None
             if tab == 'tab-trending':
                 return graph.trending
             elif tab == 'tab-anavsdig':
@@ -294,6 +293,7 @@ def display_results(n_clicks, tab, product, country):
             elif tab == 'tab-related':
                 return graph.related
     else:
+        graph.analysis_print = None
         return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
 
 
