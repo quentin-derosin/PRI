@@ -90,13 +90,13 @@ def getRelatedTopic(product):
 
 def forCountryMarketing(Country):
     pytrend = TrendReq()
-    list_analog_name = ['Email', 'Radio', 'Mobile', 'Television',
+    list_digital_name = ['Email', 'Radio', 'Mobile', 'Television',
                         'Facebook']
-    list_digital_name = ['Newspaper Marketing', 'Billboards', 'Bus Shelter Ads', 'Print Ads', 'Fliers']
+    list_analog_name = ['Newspaper Marketing', 'Billboards', 'Bus Shelter Ads', 'Print Ads', 'Fliers']
     ctemp = pycountry.countries.get(name=Country.title())
-    pytrend.build_payload(kw_list=list_analog_name, geo=ctemp.alpha_2)  # It can take maximum 5 products in kw_list
+    pytrend.build_payload(kw_list=list_digital_name, geo=ctemp.alpha_2)  # It can take maximum 5 products in kw_list
     digital_marketing = pytrend.interest_by_region(resolution='REGION')
-    pytrend.build_payload(kw_list=list_digital_name, geo=ctemp.alpha_2)
+    pytrend.build_payload(kw_list=list_analog_name, geo=ctemp.alpha_2)
     analog_marketing = pytrend.interest_by_region(resolution='REGION')
 
     list_analog_data = [
@@ -206,7 +206,7 @@ def display_results(n_clicks, tab, product, country):
                 return html.H1(children="Please enter good country",
                                style={'color': 'red', 'fontSize': 20, 'text-align': 'center'}, className="align-center")
 
-            analog, digital = forCountryMarketing(country)
+            digital, analog = forCountryMarketing(country)
 
             df_related = getRelatedTopic(product)
 
