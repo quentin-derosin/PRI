@@ -90,8 +90,8 @@ def getRelatedTopic(product):
 
 def forCountryMarketing(Country):
     pytrend = TrendReq()
-    list_analog_name = ['Email marketing', 'Radio Advertising', 'Mobile Marketing', 'Television Advertising',
-                        'Facebook Advertisement']
+    list_analog_name = ['Email', 'Radio', 'Mobile', 'Television',
+                        'Facebook']
     list_digital_name = ['Newspaper Marketing', 'Billboards', 'Bus Shelter Ads', 'Print Ads', 'Fliers']
     ctemp = pycountry.countries.get(name=Country.title())
     pytrend.build_payload(kw_list=list_analog_name, geo=ctemp.alpha_2)  # It can take maximum 5 products in kw_list
@@ -108,11 +108,11 @@ def forCountryMarketing(Country):
     ]
 
     list_digital_data = [
-        digital_marketing['Email marketing'].mean(),
-        digital_marketing['Radio Advertising'].mean(),
-        digital_marketing['Mobile Marketing'].mean(),
-        digital_marketing['Television Advertising'].mean(),
-        digital_marketing['Facebook Advertisement'].mean(),
+        digital_marketing['Email'].mean(),
+        digital_marketing['Radio'].mean(),
+        digital_marketing['Mobile'].mean(),
+        digital_marketing['Television'].mean(),
+        digital_marketing['Facebook'].mean(),
     ]
 
     digital = utilGraph(list_digital_name, list_digital_data)
@@ -285,7 +285,6 @@ def display_results(n_clicks, tab, product, country):
             elif tab == 'tab-related':
                 return graph.related
         else:
-            graph.analysis_print = None
             if tab == 'tab-trending':
                 return graph.trending
             elif tab == 'tab-anavsdig':
