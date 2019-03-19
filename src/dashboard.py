@@ -21,7 +21,7 @@ class Graphs:
     trending = None
     anavsdigi = None
     related = None
-    analysis_print = html.H2("//Toasasas fill with custom analysis")
+    analysis_print = None
     click_button = 0
 
 
@@ -167,9 +167,6 @@ app.layout = html.Div(children=[
         ]),
         html.Div(id="tabs-content")], id='results'),
     html.Div([
-        html.H2("Analysis"),
-    ]),
-    html.Div([
         dcc.Interval(
             id='interval-component',
             interval=1 * 1000,  # in milliseconds
@@ -198,7 +195,7 @@ def display_results(n_clicks, tab, product, country):
 
             trend = forCountry(country, product)
             if trend is None:
-                return html.H1(children="Please enter good country", style={'color': 'red', 'fontSize': 20})
+                return html.H1(children="Please enter good country", style={'color': 'red', 'fontSize': 20, 'text-align': 'center'}, className="align-center")
 
             digital, analog = forCountryMarketing(country)
 
@@ -257,7 +254,10 @@ def display_results(n_clicks, tab, product, country):
                 }
             )
 
-            graph.analysis_print = html.H1(children="bonjour")
+            graph.analysis_print = html.Div([
+                html.H2("Analysis"),
+                html.P("bonjour"),
+                html.Div([html.A("Search something else !", href='#search', className="search_button")], className="center")])
 
             if tab == 'tab-trending':
                 return graph.trending
@@ -274,11 +274,11 @@ def display_results(n_clicks, tab, product, country):
                 return graph.related
     else:
         if tab == 'tab-trending':
-            return html.H3(children="Enter product and country and click on submit")
+            return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
         elif tab == 'tab-anavsdig':
-            return html.H3(children="Enter country and click on submit")
+            return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
         elif tab == 'tab-related':
-            return html.H3(children="Enter product and click on submit")
+            return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
 
 
 @app.callback(dash.dependencies.Output('analysis', 'children'),

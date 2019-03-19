@@ -48,6 +48,10 @@ header .title-text h3 {
    margin: auto;
 }
 
+.align-center {
+   text-align: center;
+}
+
 #search { height: 200px; margin: 0;}
 
 #button, .search_button {
@@ -71,10 +75,7 @@ ul { margin-bottom: 0; }
 
 #button { margin: -3px 7%; }
 
-#results { min-height: 600px; }
-
 #analysis {
-   height: 150px;
    margin-top: 30px;
 }
 
