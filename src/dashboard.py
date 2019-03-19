@@ -272,9 +272,7 @@ def display_results(n_clicks, tab, product, country):
                        ", we advise you tu use " + analog_or_digital.name.upper() + " marketing because" +
                        " the proportion of " + analog_or_digital.data.index[analog_or_digital.index].upper() +
                        " witch is the most representative field is " + str(round(analog_or_digital.data.value[analog_or_digital.index])) + " %"),
-            ])
-            # html.Div([html.A("Search something else !", href='#search', className="search_button")], className="center")])
-
+                html.Div([html.A("Search something else !", href='#search', className="search_button")], className="center")])
             if tab == 'tab-trending':
                 return graph.trending
             elif tab == 'tab-anavsdig':
