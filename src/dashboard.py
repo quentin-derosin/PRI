@@ -9,12 +9,20 @@ import pandas as pd
 import pycountry
 from pytrends.request import TrendReq
 from collections import OrderedDict
+import numpy
 
 
 class utilGraph:
     def __init__(self, index, value):
         self.index = index
         self.value = value
+
+
+class Analog_or_digital:
+    def __init__(self, name, data, index):
+        self.name = name
+        self.data = data
+        self.index = index
 
 
 class Graphs:
@@ -195,7 +203,8 @@ def display_results(n_clicks, tab, product, country):
 
             trend = forCountry(country, product)
             if trend is None:
-                return html.H1(children="Please enter good country", style={'color': 'red', 'fontSize': 20, 'text-align': 'center'}, className="align-center")
+                return html.H1(children="Please enter good country",
+                               style={'color': 'red', 'fontSize': 20, 'text-align': 'center'}, className="align-center")
 
             digital, analog = forCountryMarketing(country)
 
@@ -219,7 +228,7 @@ def display_results(n_clicks, tab, product, country):
                 dash_table.DataTable(id="table-related",
                                      # style_table={'width': '90#'},
                                      style_cell={'textAlign': 'center',
-                                                 'minWidth': '512%', 'width': '512', 'maxWidth': '512',
+                                                 'minWidth': '512px', 'width': '512px', 'maxWidth': '512px',
                                                  'overflow': 'hidden',
                                                  'textOverflow': 'ellipsis',
                                                  },
@@ -235,7 +244,6 @@ def display_results(n_clicks, tab, product, country):
 
                                      )
             ])
-
 
             graph.anavsdigi = dcc.Graph(
                 figure={
@@ -253,11 +261,19 @@ def display_results(n_clicks, tab, product, country):
                     ]
                 }
             )
+            if analog.value[numpy.argmax(analog.value)] >= digital.value[numpy.argmax(digital.value)]:
+                analog_or_digital = Analog_or_digital("analog", analog, numpy.argmax(analog.value))
+            else:
+                analog_or_digital = Analog_or_digital("digital", digital, numpy.argmax(digital.value))
 
             graph.analysis_print = html.Div([
                 html.H2("Analysis"),
-                html.P("bonjour"),
-                html.Div([html.A("Search something else !", href='#search', className="search_button")], className="center")])
+                html.P("In " + country.upper() + ", to market " + product.upper() +
+                       ", we advise you tu use " + analog_or_digital.name.upper() + " marketing because" +
+                       " the proportion of " + analog_or_digital.data.index[analog_or_digital.index].upper() +
+                       " witch is the most representative field is " + str(round(analog_or_digital.data.value[analog_or_digital.index])) + " %"),
+            ])
+            # html.Div([html.A("Search something else !", href='#search', className="search_button")], className="center")])
 
             if tab == 'tab-trending':
                 return graph.trending
@@ -273,12 +289,7 @@ def display_results(n_clicks, tab, product, country):
             elif tab == 'tab-related':
                 return graph.related
     else:
-        if tab == 'tab-trending':
-            return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
-        elif tab == 'tab-anavsdig':
-            return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
-        elif tab == 'tab-related':
-            return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
+        return html.H3(children="Enter product & country and click on submit to get results.", className="align-center")
 
 
 @app.callback(dash.dependencies.Output('analysis', 'children'),
